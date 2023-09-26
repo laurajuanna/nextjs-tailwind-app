@@ -29,14 +29,13 @@ const PokemonByNamePage: NextPage<Props> = ({ pokemon }) => {
 
     return (
         <Layout title={name}>
-            <div className="gap-4 mt-6 flex">
-                <div className="flex-none">
+            <div className="grid gap-5 grid-cols-1 sm:grid-cols-1 md:grid-cols-12 lg:grid-cols-12 mt-6">
+                <div className="grow-0 md:col-span-4 lg:col-span-3">
                     <Card key={id} style={{ height: '100%' }}>
                         <CardBody>
                             <Image
-                                radius="lg"
-                                width={300}
-                                height={300}
+                                width={200}
+                                height={200}
                                 alt={name}
                                 src={sprites.other?.dream_world.front_default || './no-image.png'}
                             />
@@ -49,7 +48,7 @@ const PokemonByNamePage: NextPage<Props> = ({ pokemon }) => {
                         </CardBody>
                     </Card>
                 </div>
-                <div className="flex-1">
+                <div className="grow md:col-span-8 lg:col-span-9">
                     <Card style={{ height: '100%' }}>
                         <CardHeader className="font-bold justify-between">
                             <h1 className="text-transform: capitalize">#{id} - {name}</h1>
