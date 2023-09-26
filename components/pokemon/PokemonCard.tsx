@@ -12,12 +12,12 @@ export const PokemonCard = ({ pokemon }: Props) => {
 
     const router = useRouter();
 
-    const onPokemonClick = (id: number) => {
-        router.push(`/pokemon/${id}`)
+    const onPokemonClick = (name: string) => {
+        router.push(`/name/${name}`)
     }
 
     return (
-        <Card shadow="sm" key={id} isPressable isHoverable onPress={() => onPokemonClick(id)}>
+        <Card shadow="sm" key={id} isPressable isHoverable onPress={() => onPokemonClick(name)}>
             <CardBody className="overflow-visible p-0">
                 <Image
                     shadow="sm"

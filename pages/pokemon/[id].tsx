@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react'
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { Button, Card, CardBody, CardHeader, Chip, Image } from '@nextui-org/react';
 
-import { pokeApi } from '@/api';
 import { Layout } from '@/components/layouts'
 import { Pokemon } from '@/interfaces';
 import { localFavorites } from '@/utils';
 import { HeartIcon } from '@/components/icons';
+import { getPokemonInfo } from '../../utils/getPokemonInfo';
 
 interface Props {
     pokemon: Pokemon
@@ -125,26 +125,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
     const { id } = params as { id: string };
 
-    const { data } = await pokeApi.get<Pokemon>(`/pokemon/${id}`);
-
-    const pokemon = {
-        id: data.id,
-        name: data.name,
-        sprites: {
-            front_default: data.sprites.front_default,
-            back_default: data.sprites.back_default,
-            front_shiny: data.sprites.front_shiny,
-            back_shiny: data.sprites.back_shiny,
-            other: {
-                dream_world: data.sprites.other?.dream_world
-            }
-        },
-        types: data.types,
-        moves: data.moves
-    }
-
     return {
-        props: { pokemon }
+        props: { pokemon: await getPokemonInfo(id) }
     }
 }
 

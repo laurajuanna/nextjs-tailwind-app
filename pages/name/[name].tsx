@@ -5,7 +5,7 @@ import { Button, Card, CardBody, CardHeader, Chip, Image } from '@nextui-org/rea
 import { pokeApi } from '@/api';
 import { Layout } from '@/components/layouts'
 import { Pokemon, PokemonListResponse } from '@/interfaces';
-import { localFavorites } from '@/utils';
+import { getPokemonInfo, localFavorites } from '@/utils';
 import { HeartIcon } from '@/components/icons';
 
 interface Props {
@@ -121,26 +121,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
     const { name } = params as { name: string };
 
-    const { data } = await pokeApi.get<Pokemon>(`/pokemon/${name}`);
-
-    const pokemon = {
-        id: data.id,
-        name: data.name,
-        sprites: {
-            front_default: data.sprites.front_default,
-            back_default: data.sprites.back_default,
-            front_shiny: data.sprites.front_shiny,
-            back_shiny: data.sprites.back_shiny,
-            other: {
-                dream_world: data.sprites.other?.dream_world
-            }
-        },
-        types: data.types,
-        moves: data.moves
-    }
-
     return {
-        props: { pokemon }
+        props: { pokemon: await getPokemonInfo(name) }
     }
 }
 
