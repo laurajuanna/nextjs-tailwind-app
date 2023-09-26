@@ -4,7 +4,7 @@ import { Button, Card, CardBody, CardHeader, Chip, Image } from '@nextui-org/rea
 
 import { pokeApi } from '@/api';
 import { Layout } from '@/components/layouts'
-import { Pokemon } from '@/interfaces';
+import { Pokemon, PokemonListResponse } from '@/interfaces';
 import { localFavorites } from '@/utils';
 import { HeartIcon } from '@/components/icons';
 
@@ -12,7 +12,7 @@ interface Props {
     pokemon: Pokemon
 }
 
-const PokemonPage: NextPage<Props> = ({ pokemon }) => {
+const PokemonByNamePage: NextPage<Props> = ({ pokemon }) => {
 
     const { id, name, sprites } = pokemon;
 
@@ -38,7 +38,6 @@ const PokemonPage: NextPage<Props> = ({ pokemon }) => {
                                 width={300}
                                 height={300}
                                 alt={name}
-                                //className="w-full object-cover h-[140px]"
                                 src={sprites.other?.dream_world.front_default || './no-image.png'}
                             />
                             <h2 className='font-bold'>Types</h2>
@@ -105,16 +104,13 @@ const PokemonPage: NextPage<Props> = ({ pokemon }) => {
 
 export const getStaticPaths: GetStaticPaths = async (ctx) => {
 
-    const pokemons151 = [...Array(151)].map((value, index) => `${index + 1}`);
+    const { data } = await pokeApi.get<PokemonListResponse>(`/pokemon?limit=151`);
+
+    const pokemonNames: string[] = data.results.map(pokemon => pokemon.name);
 
     return {
-        /*paths: [
-            { params: { id: '1' } },
-            { params: { id: '2' } },
-            { params: { id: '3' } },
-        ],*/
-        paths: pokemons151.map(id => ({
-            params: { id }
+        paths: pokemonNames.map(name => ({
+            params: { name }
         })),
         fallback: false
     }
@@ -123,9 +119,9 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
 
-    const { id } = params as { id: string };
+    const { name } = params as { name: string };
 
-    const { data } = await pokeApi.get<Pokemon>(`/pokemon/${id}`);
+    const { data } = await pokeApi.get<Pokemon>(`/pokemon/${name}`);
 
     return {
         props: {
@@ -134,4 +130,4 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     }
 }
 
-export default PokemonPage
+export default PokemonByNamePage
