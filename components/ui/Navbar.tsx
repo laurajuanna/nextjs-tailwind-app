@@ -22,7 +22,7 @@ export const Navbar = () => {
             />
             <Link href={'/'} className='flex font-bold text-lg'>
                 <h2>P</h2>
-                <h3>okémon</h3>
+                <h3>okémon!</h3>
             </Link>
             <Spacer style={{ flex: 1 }} ></Spacer>
             <Link href={'/favorites'}>
