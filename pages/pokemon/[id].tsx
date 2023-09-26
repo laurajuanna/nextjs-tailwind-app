@@ -127,10 +127,24 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
     const { data } = await pokeApi.get<Pokemon>(`/pokemon/${id}`);
 
+    const pokemon = {
+        id: data.id,
+        name: data.name,
+        sprites: {
+            front_default: data.sprites.front_default,
+            back_default: data.sprites.back_default,
+            front_shiny: data.sprites.front_shiny,
+            back_shiny: data.sprites.back_shiny,
+            other: {
+                dream_world: data.sprites.other?.dream_world
+            }
+        },
+        types: data.types,
+        moves: data.moves
+    }
+
     return {
-        props: {
-            pokemon: data
-        }
+        props: { pokemon }
     }
 }
 
