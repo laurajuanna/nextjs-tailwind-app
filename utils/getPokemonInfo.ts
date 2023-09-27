@@ -7,7 +7,6 @@ export const getPokemonInfo = async (nameOrId: string) => {
 
         const { data } = await pokeApi.get<Pokemon>(`/pokemon/${nameOrId}`);
 
-        console.log(data.sprites)
         return {
             id: data.id,
             name: data.name,
