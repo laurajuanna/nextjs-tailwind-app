@@ -26,8 +26,8 @@ export const Navbar = () => {
             </Link>
             <Spacer style={{ flex: 1 }} ></Spacer>
             <Link href={'/favorites'}>
-                <Button isIconOnly color='primary' variant='light' aria-label='Favoritos' radius='full'>
-                    <HeartIcon />
+                <Button size="sm" color='primary' variant='ghost' aria-label='Favoritos' endContent={<HeartIcon />}>
+                    Ver Favoritos
                 </Button>
             </Link>
         </div>
